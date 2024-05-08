@@ -27,7 +27,14 @@ const version = '2.0.0'
 export const baseURL = gateway[environment].URL
 setHost(baseURL)
 
-module.exports = {
+// module.exports = {
+//   environment,
+//   version,
+//   baseURL: gateway[environment].URL,
+// }
+
+
+export default {
   environment,
   version,
   baseURL: gateway[environment].URL,

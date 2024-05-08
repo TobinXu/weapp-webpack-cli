@@ -52,13 +52,13 @@ const config = {
   },
   module: {
     rules: [
+      // {
+      //   test: /\.ts$/,
+      //   exclude: /node_modules/,
+      //   use: 'ts-loader',
+      // },
       {
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        use: 'ts-loader',
-      },
-      {
-        test: /\.js$/,
+        test: /\.(js|ts)$/,
         exclude: /node_modules/,
         use: 'babel-loader'
       },

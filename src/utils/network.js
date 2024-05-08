@@ -321,7 +321,8 @@ const gqlRequestWrapper = (gqlDoc, params) => {
   })
 }
 
-module.exports = {
+
+export default {
   login,
   request,
   upload,

@@ -14,6 +14,7 @@ module.exports = {
         // pollfill核心依赖库core-js
         corejs: 3
       }
-    ]
+    ],
+    "@babel/preset-typescript"
   ]
 }

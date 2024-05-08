@@ -9,7 +9,7 @@ axios.intercepter.request.use(_ => { console.log(11); return _ }, _ => _)
 axios.intercepter.request.use(_ => { console.log(22); return _ }, _ => _)
 axios.intercepter.response.use(_ => { console.log(33); return _ }, _ => _)
 axios.intercepter.response.use(_ => { console.log(44); return _.data }, _ => _)
-axios({ url: 'https://www.baidu.com', cancelPromise }).then(res => console.log(res), rej => console.log(rej))
+// axios({ url: 'https://www.baidu.com', cancelPromise }).then(res => console.log(res), rej => console.log('rej'))
 // cancelFunc()
 App({
   async onLaunch() {

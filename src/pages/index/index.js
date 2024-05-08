@@ -1,6 +1,9 @@
 // index.js
 import lottie from 'lottie-miniprogram'
 import webp from '../../assets/module.png'
+import { getI18nLanguage } from '@/utils/i18n'
+
+console.log(getI18nLanguage(), 'getI18nLanguage')
 
 Page({
   data: {
