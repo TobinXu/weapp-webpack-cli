@@ -1,0 +1,183 @@
+query getMyProfile {
+  me {
+    alumnusID
+    wechat
+    phoneNumber
+    phoneCountryCode
+    email
+    selfieImage
+    residence
+    residenceA
+    residenceB
+    residenceC
+    residenceD
+    residenceE
+    enrollments {
+      name
+      enrollmentYear
+      enrollmentType
+      department {
+        name
+        start
+        end
+      }
+    }
+    privacySettings {
+      ...PrivacySettings
+    }
+    jobs {
+      id
+      ...Job
+    }
+  }
+}
+
+query getMyPrivacySetting {
+  me {
+    birthdayCards
+    privacySettings {
+      ...PrivacySettings
+    }
+  }
+}
+
+query getMyJobs {
+  me {
+    jobs {
+      id
+      ...Job
+    }
+  }
+}
+
+mutation addMyJob($input: [AddMyJobInput!]!) {
+  addMyJob(input: $input) {
+    jobs {
+      industry
+      company
+    }
+  }
+}
+
+mutation setPrivacySetting($patch: PrivacySettingsPatch!) {
+  setPrivacySettings(patch: $patch) {
+    privacySettings {
+      ...PrivacySettings
+    }
+  }
+}
+
+query getAlumnus($id: Int!) {
+  getAlumnus(id: $id) {
+    ...Alumnus
+  }
+}
+
+mutation updateMyContact($input: WechatUserContactInput!) {
+  updateMyContact(input: $input) {
+    wechat
+  }
+}
+
+query findAlumni($q: FindAlumniInput!) {
+  findAlumni(input: $q) {
+    more
+    data {
+      id
+      claimed
+      relationship
+      enrollments {
+        ...Enrollment
+      }
+    }
+  }
+}
+
+mutation addMyEnrollment($input: [AddMyJobInput!]!) {
+  addMyJob(input: $input) {
+    jobs {
+      industry
+      company
+    }
+  }
+}
+
+mutation removeMyJob($input: RemoveMyJobInput!) {
+  removeMyJob(input: $input) {
+    jobs {
+      industry
+      company
+    }
+  }
+}
+
+mutation updateMyJob($input: UpdateMyJobInput!) {
+  updateMyJob(input: $input) {
+    jobs {
+      industry
+      company
+    }
+  }
+}
+
+query getOauthMe {
+  me {
+    phoneNumber
+    enrollments {
+      name
+    }
+  }
+}
+
+query getMyPhoneNumber {
+  me {
+    phoneNumber
+    phoneCountryCode
+  }
+}
+
+query getMyBirthdayCards {
+  me {
+    birthdayCards
+  }
+}
+
+mutation submitSuggestion($content: String, $file: Upload) {
+    submitSuggestion(input: {content: $content, file: $file})
+}
+
+
+query getContactAndJob {
+  me {
+    phoneNumber
+    email
+    residence
+    jobs {
+      id
+      company
+      industry
+    }
+  }
+}
+
+query pushTemplate {
+    pushTemplate {
+        subscribeApprovedOrder
+        subscribeRefusedOrder
+    }
+}
+
+# 查询服务母校记录
+query serveRecords{
+    serveRecords{
+        id
+        projectType
+        projectName
+        item
+        serveStart
+        serveEnd
+        rewardPoints
+        createdAt
+        type
+    }   
+}

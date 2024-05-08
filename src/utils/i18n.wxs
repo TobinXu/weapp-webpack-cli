@@ -1,0 +1,58 @@
+
+var tr = function (globalData, name) {
+  if (globalData.language === 'en') {
+    return globalData.zh_CN2en_US[name] || ('En ' + name)
+  }
+  return name
+}
+
+function t() {
+  var dict = arguments[0]
+  if (!dict) {
+    return arguments[1].split('-')[1]
+  }
+  if (arguments.length === 2) {
+    return dict[arguments[1]] || arguments[1].split('-')[1] || arguments[1]
+  }
+  var fill = dict[arguments[1]]
+  if (fill) {
+    for (var i = 2; i < arguments.length; ++i) {
+      fill = fill.replace('{' + (i - 1) + '}', arguments[i])
+    }
+    return fill
+  } else {
+    return arguments[1].split('-')[1]
+  }
+}
+
+function trimAddrPrefix(addr) {
+  var spts = addr.split('-')
+  if (spts.length >= 2) {
+    if ((spts[0] === "亚洲" || spts[0] === "Asia") && (spts[1] === "中国" || spts[1].indexOf("China") !== -1)) {
+      return spts.slice(2).join('-')
+    } else {
+      return addr
+    }
+  } else {
+    return addr
+  }
+}
+
+function formatYear(date) {
+    var date = getDate(date); //返回当前时间对象
+    var year = date.getFullYear()
+    return year
+}
+function getI18nEntryLabel(str) {
+    if (!str) return
+    if (str.slice(0, 3) === 'fv-') return str
+    return 'fv-' + str
+}
+
+module.exports = {
+  tr: tr,
+  t: t,
+  trimAddrPrefix: trimAddrPrefix,
+  formatYear: formatYear,
+  getI18nEntryLabel: getI18nEntryLabel,
+}

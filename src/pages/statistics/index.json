@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "BarChart": "@utils-web/miniprogram-dashboard/BarChart/index",
+    "NumberChart": "@utils-web/miniprogram-dashboard/NumberChart/index",
+    "LineChart": "@utils-web/miniprogram-dashboard/LineChart/index",
+    "PieChart": "@utils-web/miniprogram-dashboard/PieChart/index"
+  }
+}

@@ -1,0 +1,16 @@
+<!--pages/admin/statistics/index.wxml-->
+<i-spin size="large" fix wx:if="{{showSpin}}"></i-spin>
+
+<view class="wrapper" wx:else>
+    <view class="container">
+    <block wx:for="{{chartData}}" wx:key="index" wx:for-item="board">
+        <block wx:for="{{board.items}}" wx:key="index">
+            <BarChart wx:if="{{item.display === 'BAR'}}" data="{{item.values}}" title="{{item.title}}" onTouchChart="{{clickBarChart}}" />
+            <NumberChart wx:if="{{item.display === 'SINGLE'}}" number="{{item.values[0].y}}" title="{{item.title}}" onTouchChart="{{clickNumberChart}}"/>
+            <LineChart wx:if="{{item.display === 'LINE'}}" data="{{item.values}}" title="{{item.title}}" onTouchChart="{{clickLineChart}}"/>
+            <PieChart wx:if="{{item.display === 'PIE'}}" data="{{item.values}}" title="{{item.title}}" onTouchChart="{{clickPieChart}}"/>
+        </block>
+    </block>
+        
+    </view>
+</view>

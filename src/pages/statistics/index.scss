@@ -1,0 +1,11 @@
+@import "../../styles/common.scss";
+
+.wrapper {
+    width: 750rpx;
+    box-sizing: border-box;
+    padding: 24rpx 32rpx;
+    .container {
+        @include card;
+        border-radius: 32rpx;
+      }
+}

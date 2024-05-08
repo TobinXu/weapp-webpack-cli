@@ -1,0 +1,126 @@
+
+var formatTime = function (date) {
+  var date = getDate(date) //返回当前时间对象
+  var year = date.getFullYear()
+  var month = fixz(date.getMonth() + 1)
+  var day = fixz(date.getDate())
+  var hour = fixz(date.getHours())
+  var minute = fixz(date.getMinutes())
+  var second = fixz(date.getSeconds())
+  return [year, month, day].join('-') + ' ' + [hour, minute, second].join(':')
+}
+var formatMinute = function (date) {
+  var date = getDate(date) //返回当前时间对象
+  var year = date.getFullYear()
+  var month = fixz(date.getMonth() + 1)
+  var day = fixz(date.getDate())
+  var hour = fixz(date.getHours())
+  var minute = fixz(date.getMinutes())
+  var second = fixz(date.getSeconds())
+  return [year, month, day].join('-') + ' ' + [hour, minute].join(':')
+}
+var formatMinutes = function (date) {
+  var date = getDate(date) //返回当前时间对象
+  var hour = fixz(date.getHours())
+  var minute = fixz(date.getMinutes())
+  return [hour, minute].join(':')
+}
+var formatDate = function (date) {
+  if (!date) return '暂无'
+  var date = getDate(date) //返回当前时间对象
+  var year = date.getFullYear()
+  var month = fixz(date.getMonth() + 1)
+  var day = fixz(date.getDate())
+  return [year, month, day].join('-')
+}
+var formatYear = function (date) {
+  if (!date) return '暂无'
+  var date = getDate(date) //返回当前时间对象
+  var year = date.getFullYear()
+ 
+  return year
+}
+var formatDay = function (date, delimiter='-') {
+  if (!date) return '暂无'
+  var date = getDate(date) //返回当前时间对象
+  var month = fixz(date.getMonth() + 1)
+  var day = fixz(date.getDate())
+  return [month, day].join(delimiter)
+}
+
+var isSameDay = function (date1, date2) {
+  if (!date1 || !date2) return false
+  var dateF = getDate(date1) 
+  var dateS = getDate(date2) 
+  var yearF = dateF.getFullYear()
+  var monthF = (dateF.getMonth() + 1)
+  var dayF = (dateF.getDate())
+  var yearS = dateS.getFullYear()
+  var monthS = (dateS.getMonth() + 1)
+  var dayS = (dateS.getDate())
+  if (yearF === yearS && monthF === monthS && dayF === dayS) {
+      return true
+  } else {
+      return false
+  }
+}
+
+function isYesterday(now, currentTime) {
+    var now = getDate(now);
+    var yesterday = getDate(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+    currentTime = getDate(currentTime);
+    // 比较年份和日期
+    return currentTime.getFullYear() === yesterday.getFullYear() &&
+           currentTime.getMonth() === yesterday.getMonth() &&
+           currentTime.getDate() === yesterday.getDate();
+}
+
+function isAfter(now, currentTime) {
+    var now = getDate(now).getTime();
+    currentTime = getDate(currentTime).getTime();
+    // 比较年份和日期
+    return currentTime > now
+}
+   
+var fixz = function (num) {
+  if (num < 10) {
+    return '0' + num
+  }
+  return num
+}
+
+function getFullYear(date){
+   return date? getDate(date).getFullYear():'';
+}
+
+function formatShowDate(date) {
+    var now = getDate();
+    var diff = now - getDate(date);
+    var diffInDays = Math.floor(diff / (1000 * 60 * 60 * 24));
+    if (diffInDays === 0) {
+      return '今天';
+    } else if (diffInDays === 1) {
+      return '昨天';
+    } else if (diffInDays <= 7) {
+      return '一周内';
+    } else if (diffInDays <= 30) {
+      return '一个月内';
+    } else {
+      return '一个月之前';
+    }
+  }
+
+module.exports = {
+  formatTime: formatTime,
+  formatDate: formatDate,
+  formatYear: formatYear,
+  formatMinute: formatMinute,
+  getFullYear:getFullYear,
+  formatDay: formatDay,
+  formatMinutes: formatMinutes,
+  isSameDay: isSameDay,
+  isYesterday: isYesterday,
+  isAfter: isAfter,
+  formatYear: formatYear,
+  formatShowDate:formatShowDate
+}

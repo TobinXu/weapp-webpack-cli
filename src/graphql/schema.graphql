@@ -1,0 +1,1014 @@
+"""该字段仅限已认证校友访问"""
+directive @alumnusRequired on FIELD_DEFINITION
+
+directive @goField(forceResolver: Boolean, name: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @goModel(model: String, models: [String!]) on ENUM | INPUT_OBJECT | INTERFACE | OBJECT | SCALAR | UNION
+
+directive @i18n(
+  """该字段的数据库字段名，默认为字段名转snake风格"""
+  field: String
+
+  """ID字段名，默认为id"""
+  idField: String
+
+  """表名，默认为类名转snake风格"""
+  table: String
+) on FIELD_DEFINITION
+
+"""
+该字段属于用户的个人隐私字段。
+将检查：
+* 用户本人：可见。
+* 非本人：根据隐私设置决定是否可见。
+
+如果信息不可见，将返回null。如果信息可见但用户未填写，将返回零值，例如空串（""）或空数组（[]）
+
+field 可以不提供，如果为null将自动设置为当前读取的字段名。
+"""
+directive @privacy(field: String) on FIELD_DEFINITION
+
+input AddMyJobInput {
+  """公司/单位"""
+  company: String!
+
+  """结束时间，null表示至今"""
+  endAt: Time
+
+  """行业"""
+  industry: String!
+
+  """职位"""
+  post: String!
+
+  """开始时间"""
+  startAt: Time!
+}
+
+input AllI18nEntriesInput {
+  """按索引值筛选"""
+  key: String
+
+  """按索引值前缀筛选"""
+  keyPrefix: String
+
+  """按语言筛选"""
+  language: String
+
+  """按更新时间筛选该时间之后更新过的词条"""
+  updatedSince: Time
+}
+
+"""字母、数字串"""
+scalar AlphaNumeric
+
+"""校友信息，用于校友间查看"""
+type Alumnus {
+  """信誉黑名单（若未被拉黑、或管理员配置为全局不显示，返回null；若被拉黑，返回拉黑理由文字描述）"""
+  blocked: String
+
+  """是否已注册（是否已被某一小程序用户认领）"""
+  claimed: Boolean!
+
+  """电子邮箱"""
+  email: String
+
+  """学籍信息"""
+  enrollments: [Enrollment!]!
+
+  """ID"""
+  id: Int!
+
+  """工作经历"""
+  jobs: [Job!]
+
+  """电话号码区号"""
+  phoneCountryCode: String
+
+  """电话号码"""
+  phoneNumber: String
+
+  """该校友的隐私设置"""
+  privacySettings: PrivacySettings!
+
+  """此人与我的关系"""
+  relationship: RelationshipEnum!
+
+  """居住地-拼接结果"""
+  residence: String
+
+  """居住地-大洲"""
+  residenceA: String
+
+  """居住地-国家或地区"""
+  residenceB: String
+
+  """居住地-省级行政区或州"""
+  residenceC: String
+
+  """居住地-地级行政区"""
+  residenceD: String
+
+  """居住地-县级行政区"""
+  residenceE: String
+
+  """自拍图片 imageId"""
+  selfieImage: String
+
+  """访客数（PV）"""
+  visitorPageViewCount: Int!
+
+  """微信号"""
+  wechat: String
+}
+
+"""任意值"""
+scalar Any
+
+"""Base64文本"""
+scalar Base64
+
+type Coupon {
+  """校友id"""
+  alumnusId: Int!
+
+  """优惠券券码"""
+  couponCode: String!
+
+  """优惠券ID"""
+  id: Int!
+
+  """商品ID"""
+  productId: Int!
+
+  """优惠券状态"""
+  status: CouponStatusEnum!
+}
+
+enum CouponStatusEnum {
+  """其他"""
+  OTHER
+
+  """积分兑换"""
+  POINTS
+}
+
+input CreateOrderInput {
+  location: InputLocation
+  payCount: Int!
+  payNotes: String
+  phoneNumber: String
+  productId: Int!
+  receiver: String
+}
+
+"""校内院系"""
+type Department {
+  """结束年份（包含）（负数表示现存）"""
+  end: Int!
+
+  """院系ID"""
+  id: Int!
+
+  """院系名称"""
+  name: String!
+
+  """开始年份（包含）"""
+  start: Int!
+}
+
+"""证件类型"""
+enum DocumentTypeEnum {
+  """港澳居民来往内地通行证"""
+  HKMO
+
+  """居民身份证"""
+  Mainland
+
+  """护照"""
+  Passport
+
+  """台湾居民来往大陆通行证"""
+  TW
+}
+
+"""电子邮箱地址"""
+scalar EmailAddr
+
+"""学籍信息"""
+type Enrollment {
+  """当时所属院系"""
+  department: Department
+
+  """学籍类型"""
+  enrollmentType: EnrollmentTypeEnum!
+
+  """入学年"""
+  enrollmentYear: Int!
+
+  """性别"""
+  gender: Gender!
+
+  """姓名"""
+  name: String!
+}
+
+"""学籍类型"""
+enum EnrollmentTypeEnum {
+  """专科"""
+  College
+
+  """博士"""
+  Doctor
+
+  """本科校内二学位"""
+  DoubleMajor
+
+  """硕士"""
+  Master
+
+  """本科辅修"""
+  Minor
+
+  """博士后"""
+  Postdoctor
+
+  """社会招生二学位"""
+  SecondDegree
+
+  """本科"""
+  Undergraduate
+}
+
+"""未完成认证的学籍"""
+type EnrollmentUntrusted {
+  """允许邀请认证"""
+  allowEndorse: Boolean!
+
+  """允许在线认证"""
+  allowOnline: Boolean!
+
+  """院系"""
+  department: Department!
+
+  """邀请认证的已认证人数量"""
+  endorsedNumber: Int!
+
+  """供邀请认证的认证码"""
+  endorsementCode: String
+
+  """学籍类型"""
+  enrollmentType: EnrollmentTypeEnum!
+
+  """入学年份"""
+  enrollmentYear: Int!
+
+  """ID"""
+  id: Int
+
+  """专业"""
+  major: String
+
+  """注册姓名"""
+  name: String!
+
+  """在线人工审核的拒绝理由，null 表示尚未审核（即，未批准，也没驳回）"""
+  reviewComments: String
+
+  """学生证号"""
+  studentID: String!
+
+  """供在线人工审核用的文字备注"""
+  supplementaryComments: String!
+
+  """供在线人工审核用的上传的图片"""
+  supplementaryImageIds: [String!]!
+
+  """是否已提交过在线认证"""
+  supplementarySubmitted: Boolean!
+}
+
+"""文件上传"""
+input FileUploadInput {
+  """base64编码的文件内容"""
+  base64: String!
+
+  """文件类型说明，例如 image/png"""
+  contentType: String
+
+  """文件名"""
+  filename: String
+}
+
+"""查找校友的输入（检索条件）"""
+input FindAlumniInput {
+  """单位"""
+  company: String
+
+  """院系"""
+  department: Int
+
+  """学籍类型"""
+  enrollmentType: EnrollmentTypeEnum
+
+  """入学年"""
+  enrollmentYear: Int
+
+  """行业"""
+  industry: String
+
+  """姓名"""
+  name: String
+
+  """居住地-模糊匹配"""
+  residence: String
+}
+
+"""查找校友信息的结果"""
+type FindAlumniPayload {
+  """结果"""
+  data: [Alumnus!]!
+
+  """是否有更多"""
+  more: Boolean!
+}
+
+"""性别"""
+enum Gender {
+  """女"""
+  Female
+
+  """男"""
+  Male
+
+  """未知"""
+  Unknown
+}
+
+"""HTML文本"""
+scalar HTML
+
+"""国际化词条"""
+type I18nEntry {
+  """创建时间"""
+  createdAt: Time
+
+  """索引值"""
+  key: String!
+
+  """语言"""
+  language: String!
+
+  """更新时间"""
+  updatedAt: Time
+
+  """值"""
+  value: String!
+}
+
+"""IP地址，可以是IPv4，也可以是IPv6"""
+scalar IP
+
+"""收货地址信息"""
+input InputLocation {
+  """简略地址，用于列表"""
+  brief: String
+
+  """城市，例如：海淀区/福州市"""
+  city: String
+
+  """详细地址，例如：清华大学东配楼11区417"""
+  detail: String
+
+  """省份，例如：北京市/福建省"""
+  province: String
+}
+
+"""JSON文本"""
+scalar JSON
+
+"""工作信息"""
+type Job {
+  """公司/单位"""
+  company: String!
+
+  """结束时间，null表示至今"""
+  endAt: Time
+
+  """ID"""
+  id: Int!
+
+  """行业"""
+  industry: String!
+
+  """职位"""
+  post: String!
+
+  """开始时间"""
+  startAt: Time
+}
+
+"""实名信息"""
+type LegalIdentity {
+  """证件号"""
+  documentNumberMasked: String!
+
+  """证件类型"""
+  documentType: DocumentTypeEnum!
+
+  """姓名"""
+  legalName: String!
+}
+
+type MallContact {
+  """联系方式"""
+  contact: String!
+
+  """联系人"""
+  name: String!
+}
+
+"""Key-Value结构"""
+scalar Map
+
+type Mutation {
+  """添加工作信息"""
+  addMyJob(input: [AddMyJobInput!]!): WechatUser
+
+  """兑换商品"""
+  createOrder(input: CreateOrderInput!): Order
+
+  """移除工作信息"""
+  removeMyJob(input: RemoveMyJobInput!): WechatUser
+
+  """设置隐私权限"""
+  setPrivacySettings(patch: PrivacySettingsPatch!): WechatUser!
+
+  """校友提交建言献策留言"""
+  submitSuggestion(input: SubmitSuggestionInput!): Boolean!
+
+  """更新个人联络信息"""
+  updateMyContact(input: WechatUserContactInput!): WechatUser!
+
+  """更新工作信息"""
+  updateMyJob(input: UpdateMyJobInput!): WechatUser
+}
+
+"""数字串"""
+scalar Numeric
+
+type Order {
+  """校友id"""
+  alumnusId: Int!
+
+  """优惠券兑换码"""
+  couponCode: String
+
+  """订单创建时间"""
+  created: Time!
+
+  """物流公司"""
+  expressName: String
+
+  """物流单号"""
+  expressNo: String
+
+  """发货时间"""
+  expressTime: Time
+
+  """订单ID"""
+  id: Int!
+
+  """收货地址"""
+  location: OrderLocation
+
+  """购买数量"""
+  payCount: Int!
+
+  """下单备注"""
+  payNotes: String
+
+  """支付积分"""
+  payPoints: Int!
+
+  """兑换类型：目前只有一种积分兑换"""
+  payType: PayTypeEnum!
+
+  """手机号"""
+  phoneNumber: String
+
+  """商品id"""
+  productId: Int!
+
+  """商品名称"""
+  productName: String!
+
+  """商品封面图"""
+  productThumb: String!
+
+  """商品类型"""
+  productType: ProductTypeEnum!
+
+  """收货人"""
+  receiver: String
+
+  """审核失败理由"""
+  refuseReason: String
+
+  """订单状态"""
+  status: OrderStatusEnum!
+
+  """订单编号"""
+  tradeNo: String!
+}
+
+"""收货地址信息"""
+type OrderLocation {
+  """简略地址，用于列表"""
+  brief: String
+
+  """城市，例如：海淀区/福州市"""
+  city: String
+
+  """详细地址，例如：清华大学东配楼11区417"""
+  detail: String
+
+  """省份，例如：北京市/福建省"""
+  province: String
+}
+
+enum OrderStatusEnum {
+  """兑换失败"""
+  FAIL
+
+  """兑换成功"""
+  SUCCESS
+
+  """等待发货中"""
+  WAITING
+}
+
+"""
+表示密码的64位十六进制串，小写表示。
+令密码明文为raw，计算方式为：SHA256((~raw)^0xffe5)。
+~表示按位取反，^表示异或，0xffe5是字符“￥“的Unicode编码。
+"""
+scalar PasswordHash
+
+enum PayTypeEnum {
+  """其他"""
+  OTHER
+
+  """积分兑换"""
+  POINTS
+}
+
+"""
+手机号，格式：`地区代码.号码`，地区代码和号码之间以一个点（.）隔开。
+例如`+86.18812345678`是一个有效格式。
+"""
+scalar PhoneNumber
+
+"""积分明细"""
+type PointChange {
+  """校友"""
+  alumnusId: Int!
+
+  """创建时间"""
+  created: Time
+
+  """积分变化量"""
+  deltaAmount: Int!
+
+  """积分变化量前端展示"""
+  deltaAmountFormatted: String!
+
+  """ID"""
+  id: Int!
+
+  """原因文字描述"""
+  reason: String!
+
+  """原因分类"""
+  type: Int!
+}
+
+"""隐私权限"""
+enum PrivacyLevelEnum {
+  """校友可见"""
+  ALUMNI
+
+  """同学和好友可见"""
+  CLASSMATES
+
+  """仅好友可见"""
+  FRIENDS
+
+  """保密"""
+  SECRET
+}
+
+"""隐私设置"""
+type PrivacySettings {
+  """邮箱的隐私权限"""
+  email: PrivacyLevelEnum!
+
+  """工作经历的隐私权限"""
+  jobs: PrivacyLevelEnum!
+
+  """手机号的隐私权限"""
+  phone: PrivacyLevelEnum!
+
+  """居住地的隐私权限"""
+  residence: PrivacyLevelEnum!
+
+  """证件照的隐私权限"""
+  selfie: PrivacyLevelEnum!
+
+  """微信号的隐私权限"""
+  wechat: PrivacyLevelEnum!
+}
+
+input PrivacySettingsPatch {
+  """邮箱的隐私权限"""
+  email: PrivacyLevelEnum
+
+  """工作经历的隐私权限"""
+  jobs: PrivacyLevelEnum
+
+  """手机号的隐私权限"""
+  phone: PrivacyLevelEnum
+
+  """居住地的隐私权限"""
+  residence: PrivacyLevelEnum
+
+  """证件照的隐私权限"""
+  selfie: PrivacyLevelEnum
+
+  """微信号的隐私权限"""
+  wechat: PrivacyLevelEnum
+}
+
+type Product {
+  """商品详情"""
+  detail: String
+
+  """商品ID"""
+  id: Int!
+
+  """是否购买限制"""
+  isLimit: Boolean!
+
+  """支付积分"""
+  pointsPay: Int!
+
+  """商品市场价"""
+  price: Float
+
+  """商品名称"""
+  productName: String!
+
+  """商品图"""
+  productPic: [String!]!
+
+  """商品封面图"""
+  productThumb: String!
+
+  """商品总销售数量"""
+  sellTotal: Int!
+
+  """商品状态"""
+  status: ProductStatusEnum!
+
+  """商品剩余库存"""
+  stockRemain: Int!
+
+  """商品总库存数量"""
+  stockTotal: Int!
+
+  """商品类型"""
+  type: ProductTypeEnum!
+
+  """购买限制数量"""
+  upperLimit: Int
+}
+
+type ProductPayload {
+  points: Int!
+  product: Product
+}
+
+enum ProductStatusEnum {
+  """售卖中"""
+  SELLING
+
+  """已下架"""
+  STOPPED
+
+  """未发布"""
+  UNPUBLISHED
+}
+
+enum ProductTypeEnum {
+  """优惠券"""
+  COUPON
+
+  """实物"""
+  MATERIAL
+}
+
+type ProductsPayload {
+  """分页列表"""
+  list: [Product!]!
+
+  """用户当前积分"""
+  points: Int!
+
+  """符合条件的总数"""
+  total: Int!
+}
+
+type PushTemplate {
+  """商城审核通过订阅模板"""
+  subscribeApprovedOrder: String!
+
+  """商城审核失败订阅模板"""
+  subscribeRefusedOrder: String!
+}
+
+type Query {
+  """按条件获取全部的国际化文案词条（不以$开头）"""
+  commonI18nEntries(input: AllI18nEntriesInput): [I18nEntry!]!
+
+  """按条件获取全部的国际化数据词条（以$开头）"""
+  dataI18nEntries(input: AllI18nEntriesInput): [I18nEntry!]!
+
+  """获取院系列表"""
+  departments: [Department!]!
+
+  """查找校友"""
+  findAlumni(input: FindAlumniInput!): FindAlumniPayload!
+
+  """获取指定校友的信息"""
+  getAlumnus(id: Int!): Alumnus
+
+  """我的兑换"""
+  getMyOrders(input: myOrdersInput!): myOrdersPayload
+
+  """订单详情"""
+  getOrder(id: Int!): Order
+
+  """积分明细表"""
+  getPointChange(input: QueryPointInput!): getPointPayload
+
+  """商品详情"""
+  getProduct(id: Int!): ProductPayload
+
+  """商品列表"""
+  getProducts(input: QueryProductInput!): ProductsPayload
+
+  """积分商城联系信息"""
+  mallContact: MallContact!
+
+  """当前微信用户"""
+  me: WechatUser!
+
+  """小程序推送模板"""
+  pushTemplate: PushTemplate!
+
+  """获取服务记录列表"""
+  serveRecords: [ServeRecord!]!
+}
+
+input QueryPointInput {
+  """取多少个"""
+  limit: Int! = 20
+
+  """从第几个开始取"""
+  offset: Int! = 0
+}
+
+input QueryProductInput {
+  """取多少个"""
+  limit: Int! = 20
+
+  """从第几个开始取"""
+  offset: Int! = 0
+}
+
+"""RGBA颜色，格式为6或8位十六进制串"""
+scalar RGBA
+
+"""正则表达式"""
+scalar RegExp
+
+"""好友关系，“我”表示发起请求的一方"""
+enum RelationshipEnum {
+  """互为好友"""
+  Friends
+
+  """就是我自己"""
+  MySelf
+
+  """他发出过申请，待批准"""
+  Received
+
+  """他发出过申请，已驳回"""
+  ReceivedAndRejected
+
+  """我发出过申请，待批准"""
+  Sent
+
+  """我发出过申请，已驳回"""
+  SentAndRejected
+
+  """陌生人"""
+  Stranger
+}
+
+input RemoveMyJobInput {
+  """要删除的工作信息"""
+  job: [Int!]!
+}
+
+type ServeRecord {
+  """创建时间"""
+  createdAt: Time!
+
+  """服务记录ID"""
+  id: Int!
+
+  """服务内容"""
+  item: String!
+
+  """服务项目名称"""
+  projectName: String!
+
+  """服务项目类型名称"""
+  projectType: String!
+
+  """奖励积分"""
+  rewardPoints: Int!
+
+  """服务结束时间"""
+  serveEnd: Time
+
+  """服务开始时间"""
+  serveStart: Time!
+
+  """给前端加的type类型"""
+  type: String!
+}
+
+input SubmitSuggestionInput {
+  """留言的内容"""
+  content: String
+
+  """上传的文件"""
+  file: Upload
+}
+
+"""时间，ISO格式"""
+scalar Time
+
+"""可直接访问的地址"""
+scalar URL
+
+input UpdateMyJobInput {
+  """公司/单位"""
+  company: String!
+
+  """结束时间，null表示至今"""
+  endAt: Time
+
+  """行业"""
+  industry: String!
+
+  """要更新的工作信息"""
+  job: Int!
+
+  """职位"""
+  post: String!
+
+  """开始时间"""
+  startAt: Time!
+}
+
+"""上传对象"""
+scalar Upload
+
+"""大写字母、数字串"""
+scalar UpperNumeric
+
+"""版本号，格式为 major.minor.revision"""
+scalar Version
+
+"""微信用户，仅用于当前用户信息"""
+type WechatUser {
+  """已绑定的校友ID"""
+  alumnusID: Int
+
+  """收到的生日贺卡ID。后续视为证书可获取其信息"""
+  birthdayCards: [Int!]!
+
+  """信誉黑名单（若未被拉黑、或管理员配置为全局不显示，返回null；若被拉黑，返回拉黑理由文字描述）"""
+  blocked: String
+
+  """正在认证中的学籍"""
+  certifyingEnrollments: [EnrollmentUntrusted!]!
+
+  """电子邮箱"""
+  email: String
+
+  """学籍信息"""
+  enrollments: [Enrollment!]!
+
+  """工作经历"""
+  jobs: [Job!]!
+
+  """电话号码区号"""
+  phoneCountryCode: String
+
+  """电话号码"""
+  phoneNumber: String
+
+  """隐私设置"""
+  privacySettings: PrivacySettings!
+
+  """居住地-拼接结果"""
+  residence: String
+
+  """居住地-大洲"""
+  residenceA: String
+
+  """居住地-国家或地区"""
+  residenceB: String
+
+  """居住地-省级行政区或州"""
+  residenceC: String
+
+  """居住地-地级行政区"""
+  residenceD: String
+
+  """居住地-县级行政区"""
+  residenceE: String
+
+  """自拍图片 imageId"""
+  selfieImage: String
+
+  """微信号"""
+  wechat: String
+}
+
+input WechatUserContactInput {
+  """电子邮箱"""
+  email: String!
+
+  """居住地-大洲"""
+  residenceA: String
+
+  """居住地-国家或地区"""
+  residenceB: String
+
+  """居住地-省级行政区或州"""
+  residenceC: String
+
+  """居住地-地级行政区"""
+  residenceD: String
+
+  """居住地-县级行政区"""
+  residenceE: String
+
+  """微信号"""
+  wechat: String
+}
+
+"""XML文本"""
+scalar XML
+
+type getPointPayload {
+  """该分页的活动"""
+  list: [PointChange!]!
+
+  """用户积分总数"""
+  points: Int!
+
+  """符合条件的活动总数"""
+  total: Int!
+}
+
+input myOrdersInput {
+  """取多少个"""
+  limit: Int! = 20
+
+  """从第几个开始取"""
+  offset: Int! = 0
+}
+
+type myOrdersPayload {
+  """分页列表"""
+  list: [Order!]!
+
+  """符合条件的总数"""
+  total: Int!
+}

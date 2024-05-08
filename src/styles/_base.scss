@@ -1,0 +1,224 @@
+// Color
+$primary-color: #9254de;
+$success-color: #67c23a;
+$warning-color: #e6a23c;
+$error-color: #f56c6c;
+
+// Text
+$title-color: #303133;
+$text-color: #606266;
+$tip-color: #909399;
+
+// Background Color
+$background-color-base: #fefefe;
+$background-color-page: #eef2fa;
+
+// Space
+$space-large: 64rpx;
+$space-base: 32rpx;
+$space-small: 16rpx;
+
+// Border
+$border-radius: 12px;
+$border-color-base: #ebeef5;
+$border-base: 2rpx solid $border-color-base;
+$border-dashed: 2rpx dashed $border-color-base;
+
+// Size
+$size-icon: 28rpx;
+$size-font-larger: 48rpx;
+$size-font-large: 36rpx;
+$size-font-base: 32rpx;
+$size-font-small: 28rpx;
+$size-font-smaller: 24rpx;
+
+$box-shadow-base: 0 2rpx 12rpx 0 rgba(0, 0, 0, 0.1);
+
+// Z-index
+$zindex-spin: 8;
+$zindex-affix: 10;
+$zindex-back-top: 10;
+$zindex-select: 900;
+$zindex-modal: 1000;
+$zindex-message: 1010;
+$zindex-notification: 1010;
+$zindex-tooltip: 1060;
+$zindex-transfer: 1060;
+$zindex-loading-bar: 2000;
+$zindex-spin-fullscreen: 2010;
+
+/* 单行省略 */
+.escp {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.escp-1 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  word-break: break-all;
+  text-overflow: ellipsis;
+}
+
+.escp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-break: break-all;
+  text-overflow: ellipsis;
+}
+
+.escp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  word-break: break-all;
+  text-overflow: ellipsis;
+}
+.escp-4 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  word-break: break-all;
+  text-overflow: ellipsis;
+}
+.escp-5 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  word-break: break-all;
+  text-overflow: ellipsis;
+}
+
+
+%flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+%flex-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+%flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%flex-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+%delimiter {
+  width: 2rpx;
+  height: 26rpx;
+  font-size: 24rpx;
+  font-family: PingFang SC-Regular, PingFang SC;
+  font-weight: 400;
+  background-color: #D2D1D1;
+  line-height: 28rpx;
+}
+
+%bold-title {
+  font-size: 36rpx;
+  font-family: PingFang SC-Semibold, PingFang SC;
+  font-weight: 600;
+  color: #03081B;
+}
+
+%title {
+  font-size: 32rpx;
+  font-family: PingFang SC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #03081B;
+}
+
+%sub-title {
+  font-size: 24rpx;
+  font-family: PingFang SC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #909399;
+}
+
+%line {
+  height: 2rpx;
+  width: 100%;
+  background-color: #E9E8E8;
+}
+
+
+%error-msg {
+  font-size: 24rpx;
+  font-family: PingFang SC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #EF4940;
+}
+
+
+%status-label {
+  @extend %sub-title;
+  font-family: PingFang SC-Medium, PingFang SC;
+  min-width: 88rpx;
+  height: 40rpx;
+  line-height: 38rpx;
+  background: #E9E8E8;
+  border-radius: 8rpx;
+  display: inline-block;
+  text-align: center;
+  margin-left: 12rpx;
+}
+
+@mixin card($width: 686rpx, $padding: 32rpx, $margin: 16rpx, $background-color: #fff, $border-radius: 24rpx) {
+  width: $width;
+  box-sizing: border-box;
+  background-color: $background-color;
+  padding: $padding;
+  margin-bottom: $margin;
+  border-radius: $border-radius;
+}
+
+
+%address-label {
+    @extend %flex-center;
+    @extend %sub-title;
+    margin-left: 16rpx;
+    color: $primary-color;
+    min-width: 100rpx;
+    height: 36rpx;
+    box-sizing: border-box;
+    border-radius: 8rpx 8rpx 8rpx 8rpx;
+    .left-content {
+        border: 2rpx solid $primary-color;
+        padding: 0 8rpx;
+        border-radius: 8rpx 0rpx 0rpx 8rpx;
+        background-color: $primary-color;
+        color: #FFF;
+        @extend %flex-center;
+        .icon {
+            width: 24rpx;
+            height: 24rpx;
+        }
+    }
+    .right-content {
+        border: 2rpx solid $primary-color;
+        padding: 0 8rpx;
+        border-radius: 0rpx 8rpx 8rpx 0rpx;
+        background-color: rgba(146,84,222,0.05);
+        color: $primary-color;
+    }
+}

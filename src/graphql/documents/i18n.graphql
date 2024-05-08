@@ -1,0 +1,17 @@
+fragment i18nEntry on I18nEntry {
+  key
+  value
+  language
+}
+
+query commonI18nEntries($input: AllI18nEntriesInput!) {
+  commonI18nEntries(input: $input) {
+    ...i18nEntry
+  }
+}
+
+query dataI18nEntries($input: AllI18nEntriesInput!) {
+  dataI18nEntries(input: $input) {
+    ...i18nEntry
+  }
+}

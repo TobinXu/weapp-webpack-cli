@@ -45,13 +45,18 @@ const config = {
     alias: {
       '@': SRCDIR,
     },
-    extensions: ['.js', '.json'],
+    extensions: ['.ts', '.js', '.json'],
   },
   resolveLoader: {
     modules: ['node_modules', 'build/loaders'],
   },
   module: {
     rules: [
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: 'ts-loader',
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,

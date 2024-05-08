@@ -1,0 +1,66 @@
+query getProducts($input: QueryProductInput!) {
+    getProducts(input: $input) {
+        total
+        list {
+            ...ProductBrief
+        }
+        points
+    }
+}
+
+query getMyOrders($input: myOrdersInput!){
+    getMyOrders(input: $input){
+        total
+        list {
+            ...OrderBrief
+        }
+    }   
+}
+
+query getProduct($id: Int!){
+    getProduct(id: $id) {
+        product {
+            ...ProductBrief
+        }
+        points
+    }
+    
+}
+
+query getConfirmDetail($id: Int!){
+    getProduct(id: $id) {
+        product {
+            ...ProductBrief
+        }
+        points
+    }
+}
+
+query getOrder($id: Int!){
+    getOrder(id: $id) {
+        ...OrderBrief
+    }
+}
+
+query getmallContact {
+    mallContact {
+        contact
+        name
+    }
+}
+
+query getPointChange($q: QueryPointInput!){
+    getPointChange(input: $q){
+        total
+        list{
+            ...PointBrief
+        }
+        points
+    }   
+}
+
+mutation createOrder($q: CreateOrderInput!){
+    createOrder(input: $q){
+        ...OrderBrief
+    }   
+}

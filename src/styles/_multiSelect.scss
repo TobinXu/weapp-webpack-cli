@@ -1,0 +1,55 @@
+@import "./base";
+
+.box:last-child {
+  margin-bottom: 200rpx;
+}
+
+@keyframes selectEffect {
+  0% {
+    transform: scale(1);
+    box-shadow: unset;
+  }
+
+  70% {
+    transform: scale(1.1);
+    // box-shadow: $box-shadow-base;
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: unset;
+  }
+}
+
+
+.multi-select-box {
+  width: 736rpx;
+  padding: 14rpx 0 14rpx 14rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.multi-select-item {
+  margin-right: 10rpx;
+  padding: 8rpx 16rpx;
+  font-size: 28rpx;
+  border-radius: 10rpx;
+  background: $background-color-base;
+  color: $text-color;
+}
+
+.multi-select-item-selected {
+  background: $primary-color;
+  color: $background-color-base;
+  border-radius: 10rpx;
+  animation: selectEffect 0.3s ease-in-out;
+}
+
+.multi-select-title {
+  margin: 40rpx 0 0 30rpx;
+  padding: 0 10rpx;
+  font-size: 28rpx;
+  line-height: 28rpx;
+  color: $title-color;
+  border-left: 4rpx solid $primary-color;
+}

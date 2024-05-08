@@ -1,0 +1,143 @@
+fragment PrivacySettings on PrivacySettings {
+  wechat
+  phone
+  email
+  residence
+  jobs
+  selfie
+}
+
+fragment Job on Job {
+  industry
+  company
+  post
+  startAt
+  endAt
+}
+
+fragment Enrollment on Enrollment {
+  gender
+  name
+  enrollmentType
+  enrollmentYear
+  department {
+    name
+    start
+    end
+  }
+}
+
+fragment Alumnus on Alumnus {
+  claimed
+  blocked
+  email
+  wechat
+  jobs {
+    id
+    ...Job
+  }
+  phoneCountryCode
+  phoneNumber
+  relationship
+  residence
+  selfieImage
+  enrollments {
+    ...Enrollment
+  }
+}
+
+
+
+fragment ProductBrief on Product {
+    # 商品id
+    id
+    # 商品类型
+    type
+    #  商品名称
+    productName
+    # 商品封面图
+    productThumb
+    # 商品图
+    productPic
+    # 商品详情
+    detail
+    # 商品总库存数量
+    stockTotal
+    # 商品总销售数量
+    sellTotal
+    # 商品剩余库存
+    stockRemain
+    # 商品状态
+    status
+    # 支付积分
+    pointsPay
+    # 商品市场价
+    price
+    # 是否限购
+    isLimit
+    # 限购数量
+    upperLimit
+}
+
+fragment OrderBrief on Order{
+    id
+    # 商品类型
+    productType
+    # 商品ID
+    productId
+    # 商品名称
+    productName
+    # 商品封面图
+    productThumb
+    # 订单状态 WAITING：等待发货中 SUCCESS：兑换成功 FAIL：兑换失败 
+    # DELIVERED：已发货 FINISHED：已完成
+    status
+    # 兑换方式 POINTS：积分兑换 OTHER;其他
+    payType
+    # 购买数量
+    payCount
+    #支付积分
+    payPoints
+    #支付备注
+    payNotes
+    #优惠券兑换码
+    couponCode
+    #订单编号
+    tradeNo
+    # 收货人
+    receiver
+    # 手机号
+    phoneNumber
+    # 收货地址
+    location{
+            # 省份，例如：北京市/福建省
+            province
+            # 城市，例如：海淀区/福州市
+            city
+            # 简略地址，用于列表
+            brief
+            # 详细地址，例如：清华大学东配楼11区417
+            detail
+    }
+    #物流公司
+    expressName
+    # 物流单号
+    expressNo
+    # 下单时间
+    created
+    # 审核失败原因
+    refuseReason
+}
+
+fragment PointBrief on PointChange {
+    #ID
+    id
+# 积分变化量
+    deltaAmount
+# 原因文字描述
+    reason
+# 创建时间
+    created
+# 积分变化量前端展示
+    deltaAmountFormatted
+}

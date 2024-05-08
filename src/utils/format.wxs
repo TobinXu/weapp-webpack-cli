@@ -1,0 +1,7 @@
+var join = function(arr, label="、") {
+    return arr.join(label)
+}
+
+module.exports = {
+    join: join,
+}

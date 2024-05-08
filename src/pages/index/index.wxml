@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container">
-  <image class="" src="../../assets/module.png" />
+  <image class="" src="../../assets/module.png" bindtap="goReadStatistics" />
   <image class="" src="{{webp}}" />
   <test />
   <canvas id="canvas" type="2d"></canvas>

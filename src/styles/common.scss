@@ -1,0 +1,106 @@
+@import "./base";
+
+%flex-start {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  
+  %flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  
+  %flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  %flex-space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  %delimiter {
+    width: 2rpx;
+    height: 26rpx;
+    font-size: 24rpx;
+    font-family: PingFang SC-Regular, PingFang SC;
+    font-weight: 400;
+    background-color: #D2D1D1;
+    line-height: 28rpx;
+  }
+  
+  %bold-title {
+    font-size: 36rpx;
+    font-family: PingFang SC-Semibold, PingFang SC;
+    font-weight: 600;
+    color: #303133;
+  }
+  
+  %title {
+    font-size: 32rpx;
+    font-family: PingFang SC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #303133;
+    word-break: break-all;
+  }
+  
+  %sub-title {
+    font-size: 24rpx;
+    font-family: PingFang SC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #B0B2BF;
+    word-break: break-all;
+  }
+  
+  %line {
+    height: 2rpx;
+    width: 100%;
+    background-color: #E9E8E8;
+  }
+  
+  @mixin card($width: 686rpx, $padding: 32rpx, $margin: 16rpx, $background-color: #fff, $border-radius: 24rpx) {
+    width: $width;
+    box-sizing: border-box;
+    background-color: $background-color;
+    padding: $padding;
+    margin-bottom: $margin;
+    border-radius: $border-radius;
+  }
+  
+
+  
+%btn-main {
+    height: 100rpx;
+    margin: 40rpx 40rpx;
+    border-radius: 10rpx;
+    font-size: $size-font-large;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $background-color-base;
+    background: $primary-color;
+    border: 2rpx solid $primary-color;
+    box-shadow: $box-shadow-base;
+    box-sizing: border-box;
+    transition: 0.1s;
+  }
+  
+  
+  %btn-main-plain {
+    @extend %btn-main;
+    color: $primary-color;
+    background: $background-color-base;
+    border: 2rpx solid $primary-color;
+  
+    &.red, &.danger {
+      color: red;
+      border-color: red;
+    }
+  }
